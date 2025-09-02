@@ -64,6 +64,8 @@ See [CURSOR_USAGE_GUIDE.md](CURSOR_USAGE_GUIDE.md) for complete documentation.
 ## 🛠️ Available Tools (v2.0.0)
 ## 🛠️ Available Tools (v2.1.0)
 
+## 🛠️ Available Tools (v2.1.0)
+
 ### Data Discovery & Search
 - **🏷️ list_available_tags** – Explore curated tags by topic/category
 - **🔍 search_tags** – Search for tags by Hebrew/English keyword

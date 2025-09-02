@@ -20,7 +20,7 @@ cd data-gov-il-mcp
 npm install
 ```
 
-### Claude Desktop Setup
+### Option 1: Claude Desktop Setup
 Add to your Claude Desktop config:
 
 ```json
@@ -35,6 +35,30 @@ Add to your Claude Desktop config:
 ```
 
 Restart Claude Desktop and look for the 🔧 MCP tools icon.
+
+### Option 2: Using with Cursor (NEW!)
+Cursor doesn't have native MCP support, but you can use our HTTP wrapper:
+
+```bash
+# Start the HTTP server
+npm run http
+
+# In your Cursor project, make HTTP requests to localhost:3000
+# See CURSOR_USAGE_GUIDE.md for detailed instructions
+```
+
+Quick example:
+```javascript
+// Use in any JavaScript file in Cursor
+const response = await fetch('http://localhost:3000/tool/find_datasets', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ query: 'תקציב עירייה' })
+});
+const data = await response.json();
+```
+
+See [CURSOR_USAGE_GUIDE.md](CURSOR_USAGE_GUIDE.md) for complete documentation.
 
 ## 🛠️ Available Tools (v2.0.0)
 

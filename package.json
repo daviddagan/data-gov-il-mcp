@@ -1,17 +1,20 @@
 {
   "name": "data-gov-il-mcp",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Advanced MCP server for seamless access to Israeli Government Open Data through data.gov.il with intelligent tag discovery",
   "main": "stdio.js",
   "bin": {
-    "data-gov-il-mcp": "./stdio.js"
+    "data-gov-il-mcp": "./stdio.js",
+    "data-gov-il-mcp-http": "./http.js"
   },
   "type": "module",
   "scripts": {
     "start": "node stdio.js",
+    "start:http": "node http.js",
     "dev": "node --watch stdio.js",
     "http": "node http-server.js",
     "http:dev": "node --watch http-server.js",
+    "dev:http": "node --watch http.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -30,7 +33,9 @@
     "topic-discovery",
     "data-exploration",
     "israeli-data",
-    "government-transparency"
+    "government-transparency",
+    "http-transport",
+    "streamable-http"
   ],
   "author": {
     "name": "David Osher",
@@ -52,8 +57,9 @@
     "@modelcontextprotocol/sdk": "^1.13.0",
     "axios": "^1.9.0",
     "zod": "^3.25.64",
-    "express": "^4.18.2",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^4.21.2"
   },
   "publishConfig": {
     "access": "public"

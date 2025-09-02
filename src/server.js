@@ -1,12 +1,13 @@
 /**
- * הגדרת השרת MCP הראשי
+ * הגדרת השרת MCP הראשי עם תמיכה בPrompts
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { registerAllTools } from './tools/index.js';
+import { registerPrompts } from './prompts/index.js';
 
 /**
- * יוצר ומגדיר שרת MCP חדש
+ * יוצר ומגדיר שרת MCP חדש עם Tools + Prompts
  * @param {Object} config - קונפיגורציה לשרת
  * @returns {McpServer} שרת MCP מוכן לשימוש
  */
@@ -16,8 +17,8 @@ export function createMcpServer(config = {}) {
   // יצירת שרת עם קונפיגורציה ברירת מחדל
   const serverConfig = {
     name: "data-gov-il-js",
-    version: "1.0.0",
-    description: "MCP server for Israeli government data (data.gov.il)",
+    version: "2.0.0",
+    description: "MCP server for Israeli government data (data.gov.il) with tools and prompts",
     ...config
   };
   
@@ -29,7 +30,12 @@ export function createMcpServer(config = {}) {
   // רישום כל הכלים
   registerAllTools(mcp);
   
-  console.error('✅ MCP server created successfully');
+  // רישום כל ה-prompts
+  registerPrompts(mcp);
+  
+  console.error('✅ MCP server created successfully with Tools + Prompts');
+  console.error('🛠️  Tools: 9 data analysis tools');
+  console.error('📝 Prompts: 3 expert analysis templates');
   
   return mcp;
 }
@@ -48,6 +54,7 @@ export async function connectServer(mcp, transport) {
     
     console.error('✅ Server connected successfully!');
     console.error('🎯 Data.gov.il MCP server is ready to serve requests');
+    console.error('🛠️  Available: Tools + Prompts for Israeli government data analysis');
     
   } catch (error) {
     console.error('❌ Failed to connect server:', error);
@@ -98,4 +105,5 @@ export function logEnvironmentInfo() {
   console.error(`  Architecture: ${process.arch}`);
   console.error(`  Working Directory: ${process.cwd()}`);
   console.error(`  Process ID: ${process.pid}`);
+  console.error('🆕 Features: Tools + Prompts + Multiple transports');
 }

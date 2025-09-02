@@ -7,11 +7,11 @@ async function main() {
     // לוג מידע על הסביבה
     logEnvironmentInfo();
     
-    // יצירת השרת עם כל הכלים
+    // יצירת השרת עם כל הכלים והprompts
     const mcp = createMcpServer({
       name: "data-gov-il-js",
-      version: "1.2.0",
-      description: "MCP server for data.gov.il with advanced search capabilities"
+      version: "2.0.0",
+      description: "MCP server for data.gov.il with tools, prompts, and advanced search capabilities"
     });
     
     // הגדרת טיפול נקי בסגירה

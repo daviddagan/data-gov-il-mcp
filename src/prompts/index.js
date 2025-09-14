@@ -894,7 +894,7 @@ When using data-gov-il tools:
 - Verify data freshness and relevance
 
 Remember: You are the expert bridge between complex government data and practical real estate decisions. Make the data accessible, actionable, and valuable for your users.
-</s>`
+</SYSTEM>`
             }
           }
         ]

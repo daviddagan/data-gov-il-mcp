@@ -72,6 +72,7 @@ See [CURSOR_USAGE_GUIDE.md](CURSOR_USAGE_GUIDE.md) for complete documentation.
 - **🔍 find_datasets** - Search for datasets by keywords (Hebrew/English)
 - **📊 get_dataset_info** - Get detailed information about any dataset  
 - **🎯 search_records** - Extract and analyze actual data
+- **🏘️ price_per_meter** - Calculate price per square meter for parcels
 - **🏛️ list_organizations** - Browse government organizations
 - **📋 list_all_datasets** - List all available datasets
 
@@ -110,6 +111,7 @@ search_records(resource_id="2202bada-4baf-45f5-aa61-8c5bad9646d3",
 - **Enhanced Performance**: Improved data retrieval and analysis
 - **Better Hebrew Support**: Enhanced Hebrew text processing
 - **Updated Dependencies**: Latest MCP SDK and core libraries
+- **Real Estate Price Tool**: Compute price per meter for parcels using data.gov.il
 
 ## 🌐 About
 

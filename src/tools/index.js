@@ -9,6 +9,7 @@ import { registerListResourcesTool } from './resources.js';
 import { registerSearchRecordsTool } from './search.js';
 import { registerOrganizationTools } from './organizations.js';
 import { registerTagsTool, registerSearchTagsTool } from './tags.js';
+import { registerRealEstateTools } from './real_estate.js';
 
 /**
  * רושם את כל הכלים על שרת MCP
@@ -43,6 +44,9 @@ export function registerAllTools(mcp) {
     
     registerSearchRecordsTool(mcp);
     console.error('  ✅ search_records registered');
+
+    registerRealEstateTools(mcp);
+    console.error('  ✅ price_per_meter registered');
     
     console.error('🎯 All tools registered successfully!');
     console.error('🆕 NEW: Tag exploration tools added - list_available_tags & search_tags');
@@ -200,6 +204,14 @@ export const AVAILABLE_TOOLS = {
       'Performance: Use fields parameter for large datasets'
     ],
     notes: 'This is the most powerful tool for actual data extraction. Always start with small limits to understand the data structure.'
+    },
+  price_per_meter: {
+    description: '🏘️ Calculate price per square meter for real estate transactions',
+    parameters: ['resource_id', 'gush?', 'helka?', 'address?', 'gush_field?', 'helka_field?', 'price_field?', 'area_field?'],
+    examples: [
+      'price_per_meter(resource_id="<resource_id>", gush="12345", helka="67")'
+    ],
+    notes: 'Uses data.gov.il datasets to compute price per meter for specific parcels or addresses.'
   }
 };
 
@@ -315,7 +327,7 @@ export const TOOL_CATEGORIES = {
   },
   extraction: {
     name: 'Data Extraction',
-    tools: ['search_records'],
+    tools: ['search_records', 'price_per_meter'],
     purpose: 'Extract and filter actual data for analysis'
   }
 };

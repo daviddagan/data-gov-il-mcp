@@ -2,54 +2,30 @@
  * מרכז רישום כל הכלים - נקודת כניסה אחת לכל הtools
  */
 
-import { registerListAllDatasetsTool } from './datasets.js';
 import { registerFindDatasetsTool } from './find.js';
 import { registerGetDatasetInfoTool } from './dataset_info.js';
 import { registerListResourcesTool } from './resources.js';
 import { registerSearchRecordsTool } from './search.js';
-import { registerOrganizationTools } from './organizations.js';
-import { registerTagsTool, registerSearchTagsTool } from './tags.js';
 import { registerRealEstateTools } from './real_estate.js';
+import { registerPropertyInsightsTool } from './property_insights.js';
 
 /**
  * רושם את כל הכלים על שרת MCP
  * @param {McpServer} mcp - שרת MCP
  */
 export function registerAllTools(mcp) {
-  console.error('📋 Registering MCP tools...');
+  console.error('📋 Registering MCP tools (Real-Estate Focus)...');
   
   try {
-    // רישום כל הכלים - כלי התגיות החדשים ראשונים
-    registerTagsTool(mcp);
-    console.error('  ✅ list_available_tags registered');
-    
-    registerSearchTagsTool(mcp);
-    console.error('  ✅ search_tags registered');
-    
-    // כלים קיימים
-    registerFindDatasetsTool(mcp);
-    console.error('  ✅ find_datasets registered');
-    
-    registerGetDatasetInfoTool(mcp);
-    console.error('  ✅ get_dataset_info registered');
-    
-    registerOrganizationTools(mcp);
-    console.error('  ✅ list_organizations & get_organization_info registered');
-    
-    registerListAllDatasetsTool(mcp);
-    console.error('  ✅ list_all_datasets registered');
-    
-    registerListResourcesTool(mcp);
-    console.error('  ✅ list_resources registered');
-    
-    registerSearchRecordsTool(mcp);
-    console.error('  ✅ search_records registered');
-
-    registerRealEstateTools(mcp);
-    console.error('  ✅ price_per_meter registered');
-    
-    console.error('🎯 All tools registered successfully!');
-    console.error('🆕 NEW: Tag exploration tools added - list_available_tags & search_tags');
+  // Core discovery & extraction tools kept minimal for real-estate vertical
+  registerFindDatasetsTool(mcp);      console.error('  ✅ find_datasets registered');
+  registerGetDatasetInfoTool(mcp);    console.error('  ✅ get_dataset_info registered');
+  registerListResourcesTool(mcp);     console.error('  ✅ list_resources registered');
+  registerSearchRecordsTool(mcp);     console.error('  ✅ search_records registered');
+    registerRealEstateTools(mcp);       console.error('  ✅ price_per_meter registered');
+    registerPropertyInsightsTool(mcp);  // logs inside
+  // TODO: registerPropertyInsightsTool(mcp)  ← coming soon
+  console.error('� Real-estate focused toolset registered successfully!');
     
   } catch (error) {
     console.error('❌ Error registering tools:', error);
@@ -61,41 +37,7 @@ export function registerAllTools(mcp) {
  * מידע על הכלים הזמינים (מעודכן עם כלים חדשים)
  */
 export const AVAILABLE_TOOLS = {
-  // כלים חדשים
-  list_available_tags: {
-    description: '🏷️ NEW: Explore available tags organized by categories (government, transportation, environment, etc.)',
-    parameters: ['category?', 'show_counts?', 'format?'],
-    examples: [
-      'list_available_tags() → all categories overview',
-      'list_available_tags(category="transportation") → transportation tags only',
-      'list_available_tags(format="suggestions") → themed recommendations'
-    ],
-    features: [
-      'Organized by meaningful categories',
-      'Shows dataset counts per tag',
-      'Provides usage examples',
-      'Multiple display formats'
-    ],
-    notes: 'Perfect starting point for topic-based data exploration. Shows 50+ curated tags with Hebrew/English support.'
-  },
-
-  search_tags: {
-    description: '🔍 NEW: Search for tags by keyword in Hebrew or English',
-    parameters: ['keyword'],
-    examples: [
-      'search_tags("בנק") → banking related tags',
-      'search_tags("transport") → transportation tags',
-      'search_tags("סביבה") → environment tags'
-    ],
-    features: [
-      'Hebrew and English keyword support',
-      'Shows tag categories and dataset counts',
-      'Provides immediate usage examples'
-    ],
-    notes: 'Quickly find relevant tags when you know the topic but not the exact tag names.'
-  },
-
-  // כלים קיימים (משופרים)
+  // Core tools (trimmed for real-estate focus)
   find_datasets: {
     description: '🔍 ENHANCED: Advanced search for datasets with sorting and filtering options.',
     parameters: ['query?', 'sort?', 'tags?'],
@@ -129,41 +71,6 @@ export const AVAILABLE_TOOLS = {
     notes: 'Perfect bridge between find_datasets and search_records. Shows exactly what data is available and how to access it.'
   },
 
-  list_organizations: {
-    description: '🏛️ EXPLORE: Get list of all government organizations.',
-    parameters: [],
-    examples: ['list_organizations - shows all government organizations'],
-    features: [
-      'Complete list of government organizations',
-      'Organization names for further exploration',
-      'Foundation for organization research'
-    ],
-    notes: 'Great for understanding the government data landscape and finding datasets by ministry or agency.'
-  },
-
-  get_organization_info: {
-    description: '🏢 DETAILED: Get comprehensive information about a specific government organization.',
-    parameters: ['organization'],
-    examples: [
-      'get_organization_info with organization="ministry-of-health"',
-      'get_organization_info with organization="tel-aviv-yafo"',
-      'get_organization_info with organization="cbs"'
-    ],
-    features: [
-      'Organization metadata and description',
-      'Technical metadata and configuration',
-      'User and permission information',
-      'Administrative details'
-    ],
-    notes: 'Use organization names from list_organizations. Names are usually in English and lowercase.'
-  },
-  
-  list_all_datasets: {
-    description: '⚠️ EXPENSIVE: List all available datasets from data.gov.il (1170+ items). Use find_datasets for search instead.',
-    parameters: [],
-    examples: ['Simple call with no parameters - only when you need the complete list']
-  },
-  
   list_resources: {
     description: 'List resources for a specific dataset and get resource IDs for data access.',
     parameters: ['dataset', 'include_tracking?'],
@@ -232,29 +139,29 @@ export function getToolsInfo() {
  */
 export const RECOMMENDED_WORKFLOW = {
   step1: {
-    tool: 'list_available_tags',
-    purpose: 'Discover relevant tags by topic/category',
-    example: 'list_available_tags(category="transportation")'
+    tool: 'find_datasets',
+    purpose: 'Search for real-estate related datasets (transactions, prices, planning, environment)',
+    example: 'find_datasets(query="נדלן" )'
   },
   step2: {
-    tool: 'find_datasets',
-    purpose: 'Find datasets using discovered tags',
-    example: 'find_datasets(tags="תחבורה ציבורית")'
+    tool: 'get_dataset_info',
+    purpose: 'Inspect dataset metadata & locate searchable resources',
+    example: 'get_dataset_info("mechir-lamishtaken")'
   },
   step3: {
-    tool: 'get_dataset_info',
-    purpose: 'Get detailed info about interesting datasets',
-    example: 'get_dataset_info("dataset-name")'
+    tool: 'list_resources',
+    purpose: 'List resources and obtain resource IDs with datastore_active=true',
+    example: 'list_resources(dataset="mechir-lamishtaken")'
   },
   step4: {
     tool: 'search_records',
-    purpose: 'Extract and analyze actual data using resource IDs',
-    example: 'search_records(resource_id="...", limit=10)'
+    purpose: 'Query specific resource for transactions / attributes',
+    example: 'search_records(resource_id="<uuid>", limit=5)'
   },
   step5: {
-    tool: 'search_records (advanced)',
-    purpose: 'Perform detailed analysis with filters/sorting',
-    example: 'search_records(resource_id="...", filters={"Category": "Infrastructure"}, sort=["Amount desc"])'
+    tool: 'price_per_meter',
+    purpose: 'Compute price per square meter for parcel/address',
+    example: 'price_per_meter(resource_id="<uuid>", gush="12345", helka="67")'
   }
 };
 
@@ -262,51 +169,30 @@ export const RECOMMENDED_WORKFLOW = {
  * זרימות עבודה אלטרנטיביות (מעודכנות)
  */
 export const ALTERNATIVE_WORKFLOWS = {
-  tagBasedExploration: {
-    description: 'Tag-based data discovery (NEW)',
+  parcelValuation: {
+    description: 'Evaluate parcel pricing quickly',
     steps: [
-      'list_available_tags(format="suggestions") → see themed recommendations',
-      'search_tags("keyword") → find specific tags',
-      'find_datasets(tags="chosen-tag") → discover relevant datasets',
-      'get_dataset_info → understand data structure',
-      'search_records → extract actual data'
+      'find_datasets(query="עסקאות נדלן")',
+      'get_dataset_info',
+      'list_resources',
+      'search_records(filters={"GUSH": "<gush>", "HELKA": "<helka>"}, limit=20)',
+      'price_per_meter(gush, helka)'
     ]
   },
-  organizationResearch: {
-    description: 'Research government organizations and their data publishing',
+  addressInvestigation: {
+    description: 'Investigate an address across datasets',
     steps: [
-      'list_organizations → see all government organizations',
-      'get_organization_info → detailed org analysis', 
-      'find_datasets → search org-specific datasets',
-      'get_dataset_info → analyze specific datasets'
+      'find_datasets(query="כתובת" )',
+      'search_records with address filter',
+      'price_per_meter(address="<street house>")'
     ]
   },
-  topicExploration: {
-    description: 'Explore data on a specific topic across government',
+  environmentalRisk: {
+    description: 'Check environmental context around a parcel',
     steps: [
-      'list_available_tags(category="topic") → discover relevant tags',
-      'find_datasets → discover relevant datasets',
-      'get_dataset_info → understand data structure',
-      'get_organization_info → understand data sources',
-      'search_records → extract and analyze data'
-    ]
-  },
-  quickAnalysis: {
-    description: 'Quick data exploration when you know the dataset name',
-    steps: [
-      'get_dataset_info → understand data structure',
-      'search_records (basic) → sample the data',
-      'search_records (filtered) → targeted analysis'
-    ]
-  },
-  comprehensiveResearch: {
-    description: 'Thorough research starting from topic',
-    steps: [
-      'list_available_tags → discover all available topics',
-      'find_datasets → discover datasets',
-      'list_organizations → understand sources',
-      'get_dataset_info (multiple) → compare datasets',
-      'search_records (comparative) → analyze data'
+      'find_datasets(query="סביבה" )',
+      'search_records (air quality / contaminated land resources)',
+      'Integrate (future) property_insights for aggregated view'
     ]
   }
 };
@@ -316,18 +202,18 @@ export const ALTERNATIVE_WORKFLOWS = {
  */
 export const TOOL_CATEGORIES = {
   discovery: {
-    name: 'Data Discovery',
-    tools: ['list_available_tags', 'search_tags', 'find_datasets', 'list_organizations', 'list_all_datasets'],
-    purpose: 'Find and explore available datasets, tags, and organizations'
+    name: 'Real-Estate Discovery',
+    tools: ['find_datasets'],
+    purpose: 'Locate relevant real-estate & environmental datasets'
   },
   analysis: {
-    name: 'Data Analysis', 
-    tools: ['get_dataset_info', 'get_organization_info', 'list_resources'],
-    purpose: 'Understand data structure and metadata'
+    name: 'Dataset Analysis', 
+    tools: ['get_dataset_info', 'list_resources'],
+    purpose: 'Inspect metadata & resource readiness'
   },
   extraction: {
-    name: 'Data Extraction',
+    name: 'Data Extraction & Valuation',
     tools: ['search_records', 'price_per_meter'],
-    purpose: 'Extract and filter actual data for analysis'
+    purpose: 'Query raw records and compute derived indicators'
   }
 };

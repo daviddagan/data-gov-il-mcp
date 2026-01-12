@@ -1,12 +1,12 @@
 
-# Data.gov.il MCP Server
+# Real-Estate Focused data.gov.il MCP Server
 
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-blue)](https://modelcontextprotocol.io/) [![License: MIT-NC](https://img.shields.io/badge/license-MIT--NC-blue)](LICENSE)
  ![Version](https://img.shields.io/badge/version-2.1.0-blue)
 
- 🇮🇱 **MCP server for accessing Israeli Government Open Data through data.gov.il**
+🇮🇱 **Vertical MCP server specialized for Israeli Real Estate & Parcel Intelligence via data.gov.il**
 
-Enables Claude and other AI assistants to search, discover, and analyze thousands of government datasets from Israel's open data portal.
+Purpose-built to let AI assistants (Claude, Cursor, etc.) discover and analyze Israeli real-estate related open data: parcel (גוש/חלקה) information, transaction & pricing datasets, environmental context, and early-stage valuation signals.
 
 <img width="1920" height="544" alt="Gemini_Generated_Image_2ma5vu2ma5vu2ma5" src="https://github.com/user-attachments/assets/a597c2cc-783e-40e3-aaf4-3cf681072dcc" />
 
@@ -61,66 +61,59 @@ const data = await response.json();
 
 See [CURSOR_USAGE_GUIDE.md](CURSOR_USAGE_GUIDE.md) for complete documentation.
 
-## 🛠️ Available Tools (v2.0.0)
-## 🛠️ Available Tools (v2.1.0)
+## 🛠️ Toolset (Real-Estate Focus)
 
-## 🛠️ Available Tools (v2.1.0)
+Minimal, opinionated set covering discovery → inspection → extraction → valuation → aggregated insight.
 
-### Data Discovery & Search
-- **🏷️ list_available_tags** – Explore curated tags by topic/category
-- **🔍 search_tags** – Search for tags by Hebrew/English keyword
-- **🔍 find_datasets** - Search for datasets by keywords (Hebrew/English)
-- **📊 get_dataset_info** - Get detailed information about any dataset  
-- **🎯 search_records** - Extract and analyze actual data
-- **🏘️ price_per_meter** - Calculate price per square meter for parcels
-- **🏛️ list_organizations** - Browse government organizations
-- **📋 list_all_datasets** - List all available datasets
+| Tool | Purpose |
+|------|---------|
+| 🔍 `find_datasets` | Search for candidate datasets (keywords in Hebrew/English) |
+| 📊 `get_dataset_info` | Inspect metadata & searchable resources (datastore_active) |
+| 📁 `list_resources` | List resource IDs for a dataset |
+| 🎯 `search_records` | Query raw records with q / filters / fields / sort |
+| 🏘️ `price_per_meter` | Compute price per square meter for parcel/address |
+| 🏠 `property_insights` | Aggregated multi-category context (pricing, parcels, environment, population, transportation, religion, education, services, socioeconomic) |
 
-### NEW! Expert Analysis Prompts
-- **🍎 food-nutrition-analysis** - Food industry and nutrition data expert
-- **🌱 environmental-sustainability-analysis** - Environmental data analysis
-- **🏘️ real-estate-market-analysis** - Real estate market insights
+Removed generic exploration tools (tags, organizations, full dataset dump) to keep responses focused and fast.
   
 
-## 💡 Example Usage
+## 💡 Example Usage (Real-Estate Flow)
 
 ```javascript
-// Explore tag-based categories
-list_available_tags()
+// 1. Find real-estate / transactions datasets
+find_datasets(query="נדלן")
 
-// Search for tags
-search_tags("תחבורה")
+// 2. Inspect a promising dataset
+get_dataset_info(dataset="mechir-lamishtaken")
 
-// Find municipal budget data
-find_datasets("תקציב עירייה")
+// 3. List resources & pick a datastore_active resource
+list_resources(dataset="mechir-lamishtaken")
 
-// Get info about bank branches dataset
-get_dataset_info("branches")
+// 4. Sample records for a parcel
+search_records(resource_id="<uuid>", filters={"GUSH": "12345", "HELKA": "67"}, limit=5)
 
-// Search for banks in Tel Aviv
-search_records(resource_id="2202bada-4baf-45f5-aa61-8c5bad9646d3", 
-               q="תל אביב", limit=10)
+// 5. Compute price per meter
+price_per_meter(resource_id="<uuid>", gush="12345", helka="67")
+
+// 6. Aggregated insight (address OR gush+helka OR lat+lng)
+property_insights(gush="12345", helka="67")
 ```
 
-## � What's New in v2.1.0
+## 🚀 What's New (Real-Estate Edition)
 
-- **Expert Analysis Prompts**: New AI-powered domain experts for:
-  - Food & Nutrition Analysis
-  - Environmental Sustainability
-  - Real Estate Market Insights
-- **Enhanced Performance**: Improved data retrieval and analysis
-- **Better Hebrew Support**: Enhanced Hebrew text processing
-- **Updated Dependencies**: Latest MCP SDK and core libraries
-- **Real Estate Price Tool**: Compute price per meter for parcels using data.gov.il
+- ✂️ Trimmed non-real-estate tools for leaner workflow
+- 🏠 Added `property_insights` aggregated context tool (pricing, parcels, environment, population, transportation, religion, education, services, socioeconomic)
+- 🏘️ Improved valuation path via `price_per_meter`
+- 🔍 Tuned dataset search patterns for גוש/חלקה & pricing keywords
+- 📦 Modular design ready for future zoning, demographics & news integrations
 
 ## 🌐 About
 
-This server connects to [data.gov.il](https://data.gov.il) - Israel's national open data portal with datasets from:
-- Government ministries (Health, Finance, Transportation, etc.)
-- Local authorities and municipalities  
-- Public companies and regulatory bodies
-
-Uses the CKAN API for real-time access to live government data.
+This server connects to [data.gov.il](https://data.gov.il) (CKAN) focusing on datasets containing:
+* Real estate transactions & government price programs (e.g. מחיר למשתכן)
+* Parcel / cadastral references (GUSH / HELKA)
+* Environmental indicators (air quality, contamination)
+* Potential expansion: planning decisions, socioeconomic context
 
 ## 📋 Requirements
 
